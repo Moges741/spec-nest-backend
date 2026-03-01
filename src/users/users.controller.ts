@@ -13,6 +13,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from '../auth/roles/roles.decorator';
+import { RolesGuard } from '../auth/roles/roles.guard';
 
 @Controller('users')
 export class UsersController {
@@ -47,4 +49,10 @@ getProfile(@Request() req) {
   remove(@Param('id') id: string) {
     return this.usersService.remove(Number(id));
   }
+  @Delete(':id')
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles('admin')
+deleteUser(@Param('id') id: string) {
+  return this.usersService.remove(+id);
+}
 }
