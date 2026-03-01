@@ -7,7 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     PrismaModule,
     JwtModule.register({
-      secret: "super-secret-key",
+      secret: process.env.JWT_SECRET,
       signOptions: {expiresIn: '1h'},
     }),
   ],
@@ -15,3 +15,5 @@ import { JwtModule } from '@nestjs/jwt';
   controllers: [AuthController]
 })
 export class AuthModule {}
+
+
